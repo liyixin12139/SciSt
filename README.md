@@ -1,24 +1,12 @@
-**Installation**
-示例，后面按照这种格式来
-OS: Linux (Tested on Ubuntu 18.04) 
-
-Configure [conda env](docs/ABRS-P.yml) and 
-
-Install the modified [timm](https://drive.google.com/file/d/1JV7aj9rKqGedXY1TdDfi3dP07022hcgZ/view?usp=sharing) library
+# Installation
+Linux (Tested on Ubuntu 20.04)
 ```bash
-pip install timm-0.5.4.tar
-```
-示例，后面按照这种格式来
-
-
-**# Installation**
-```
-bash
 conda create -n scist python=3.9 -y
 conda activate scist
 pip install -r requirements.txt
 ```
 
+# Usage
 ```
 import torch
 import numpy as np
@@ -26,7 +14,7 @@ from models import SciSt
 
 my_model=SciSt('resnet34',785)# predict 785 genes
 # load pretrained model
-my_model.load_state_dict(torch.load('./Weights/A2-TCGN-her2-best.pth'), strict=True)
+my_model.load_state_dict(torch.load('./Weights/A2-scist-best.pth'), strict=True)
 # use gpu to run the model
 my_model = my_model.cuda()
 # imgs: input batched image tensor on the gpu with shape Batch_size x 3 x 224 x 224
@@ -53,14 +41,12 @@ Pip>=23
 看一下TCGN怎么写的，仿照他的
 
 # Steps
-在进到正式的step之前，查询在linux进到目标dir的command line
 
 ## Train steps
 You need to have a series of spatial transcriptomics datasets and one corresponding single-cell transcriptomics dataset.
 ### 1. Identify predicted genes
 We provide one example to identify liver cancer spatial transcriptomics data hvg genes. 
-```
-bash
+```bash
 python ./src/dataset/generate_hvg_genes.py --h5_path YOUR_H5_PATH --save_path YOUR_SAVE_PATH
 ```
 The predicted genes need to intersect with gene sets in both spatial transcriptomics datasets and single-cell transcriptomics dataset.
@@ -69,8 +55,7 @@ The predicted genes need to intersect with gene sets in both spatial transcripto
 ### 2. Preprocess
 #### 2.1 Cut patches and save labels, centers
 According to center coords, extend 112. Finally, get 224 X 224 patches, and then save the normalized labels according to predicted genes. Also save centers for visualization.
-```
-bash
+```bash
 python ./src/dataset/create_patch_label.py
 ```
 This step will save data in following three folds:
@@ -80,8 +65,7 @@ This step will save data in following three folds:
 #### 2.2 Segment patches
 We implemented this by Hover-Net. It classify nucleus into five categories: neoplastic, inflammatory, connective, non-neoplastic epithelial, and dead cells. You need to provie the patch patch, model weights download path, and save path. We provide this command line.
 
-```
-bash
+```bash
 conda activate hover_net_env
 cd HOVER_NET_PATH
 python run_infer.py \
@@ -103,8 +87,7 @@ You can segmente other classifications or use other Segmentation models.
 
 #### 2.3 Generate single-cell reference for each cell types
 Choose approprite cell types for each one of above cell classifications.  
-```
-bash
+```bash
 python ref_preprocess.py
 ```
 This step will produce ./05-ref.csv file
@@ -113,8 +96,7 @@ Same single-cell reference if ok if you do the same disease type.
 
 #### 2.4 Generate noise_exp for each patch
 If you classify cells into five classifications as we provided. You can run the following code to get the noise_exp for each patch.
-```
-bash
+```bash
 python create_orig_exp.py 
 ```
 This step will produce ./06-noise_exp/ file
@@ -134,13 +116,12 @@ By now, the preprocess steps are over. We get 6 files totally.
 We provide a template of config file.
 
 #### 3.2 Train
-```
+```bash
 python ./src/scripts/main_scist_train.py --cfg CONFIG_PATH
 ```
 
 ### 4. Evaluate
-```
-bash
+```bash
 python evaluation.py
 ```
 
@@ -159,7 +140,6 @@ Same as training step.
 Same as training step.
 ### 2. Inference
 #### 2.1 Generate prediction file
-```
-bash
+```bash
 python inference.py
 ```
