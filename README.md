@@ -11,9 +11,11 @@ pip install timm-0.5.4.tar
 示例，后面按照这种格式来
 
 
-
-# Usage
+**# Installation**
 ```
+bash
+conda create -n scist python=3.9 -y
+conda activate scist
 pip install -r requirements.txt
 ```
 
@@ -45,7 +47,7 @@ predictions=predictions.numpy()
 
 # System
 Pytorch>=2.4.0
-
+Pip>=23
 
 # Download datasets
 看一下TCGN怎么写的，仿照他的
@@ -143,8 +145,7 @@ python evaluation.py
 ```
 
 ### 5. Visualize
-
-
+Refer to jupyter_notebooks/visualization.ipynb
 
 
 ## Inference steps
@@ -162,5 +163,3 @@ Same as training step.
 bash
 python inference.py
 ```
-#### 2.2 Visualization
-Refer to XXX.ipynb
