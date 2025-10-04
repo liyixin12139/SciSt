@@ -15,7 +15,7 @@ This repository provides inference examples and environment setup for loading th
 - [Project Structure (Example)](#project-structure-example)
 - [Download Datasets](#download-datasets)
 - [Steps](#Steps)
-- [License and Acknowledgements](#license-and-acknowledgements)
+
 
 ---
 
@@ -262,11 +262,5 @@ python inference.py
 ```
 ---
 
-## License and Acknowledgements
-- **License**: `TODO` (Please choose and fill in, e.g., MIT/Apache-2.0, etc.)
-- **Acknowledgements**: Thanks to community open-source tools (e.g., `PyTorch`, `torchvision`, `timm`) for their support.
 
----
 
-**Maintainers**: _(Please provide your name and contact information)_  
-**Issue Reporting**: Feel free to report issues or submit PRs via GitHub.
